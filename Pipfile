@@ -11,6 +11,8 @@ flask = "*"
 pytest = "*"
 peewee = "*"
 flask-restful = "*"
+faker = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.7"
