@@ -1,8 +1,14 @@
-from flask import Flask, render_template,request, flash,redirect,url_for
+from flask import Flask, render_template,request, flash,redirect,url_for,abort
 from models import create_tables, drop_tables, User, Post
-from forms import UserForm
+from forms import UserForm,LoginForm
 import click
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+
 app = Flask(__name__)
+login_manager = LoginManager(app)
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 @app.route('/')
 def index():
@@ -41,13 +47,49 @@ def testdata():
 
 app.secret_key = 'HelloWorld' #Don't use it .. !
 
-@app.route('/user/create', methods=['GET', 'POST', ])
+#fonction qui permet d'enregistrer un nouvelle utilisateur
+@app.route('/register', methods=['GET', 'POST', ])
 def user_create():
     user = User()
     form = UserForm()
     if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.mdp.data, method='sha256')
         form.populate_obj(user)
+        user.mdp = hashed_password 
         user.save()
-        flash('Hooray ! User created !')
-        return redirect(url_for('user_create'))
-    return render_template('user.html', form=form)
+        flash('The user has been created succesfully!')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+
+#fonction qui permet à un utilisateur de se connecter
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        users = User.select().where(User.username == form.username.data)
+        if users:
+            for user in users:
+                if check_password_hash(user.mdp, form.password.data):
+                    login_user(user)
+                    flash('Logged in successfully.')
+                    return redirect(url_for('BlogEntry'))
+    return render_template('login.html', form=form)
+   
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+    
+@app.route('/BlogEntry')
+@login_required
+def BlogEntry():
+    return render_template('BlogEntry.html')
+
+
+@app.route('/login')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))

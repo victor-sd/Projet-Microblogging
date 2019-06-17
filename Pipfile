@@ -13,6 +13,8 @@ peewee = "*"
 flask-restful = "*"
 faker = "*"
 flask-wtf = "*"
+pyramid = "*"
+werkzeug = "*"
 
 [requires]
 python_version = "3.7"
