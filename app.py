@@ -31,8 +31,7 @@ def fakedata():
     from faker import Faker
     fake = Faker()
     for user_pk in range(0, 15):
-        user = User.create(username=fake.first_name(), name=fake.name(),
-         firstname = fake.first_name(),mail = fake.text(),mdp = fake.text())
+        user = User.create(username=fake.first_name(),mail = fake.text(),mdp = fake.text())
         for post_pk in range(0, 3):
             post = Post.create( title = fake.text(), body = fake.text(),
              dateCreate = fake.date(), refUser = user)    
@@ -74,7 +73,7 @@ def login():
                 if check_password_hash(user.mdp, form.password.data):              
                     #login_user(user)
                     session['logged_in'] = True
-                    session.permanet = True
+                    session['username'] = user.username
                     flash('Logged in successfully')
                     return redirect(url_for('BlogEntry'))
     return render_template('login.html', form=form)
@@ -87,7 +86,9 @@ def load_user(user_id):
 @app.route('/BlogEntry')
 @login_required
 def BlogEntry():
-    return render_template('BlogEntry.html')
+#    form = PostCreate()
+    message = Post.select()
+    return render_template('BlogEntry.html',message=message)
 
 
 @app.route('/logout')
@@ -95,6 +96,6 @@ def BlogEntry():
 def logout():
     #if request.method == 'POST':
     session['logged_in'] = False
-    session.pop('logged_in')
+    session.clear()
     # logout_user()
     return redirect(url_for('index'))

@@ -22,6 +22,8 @@ class BaseModel(Model):
 
 class User(UserMixin, BaseModel):
     username = CharField(max_length=20)
+    name = CharField(max_length=40)
+    firstname = CharField(max_length=20)
     mail = CharField(max_length=30)
     mdp = CharField(max_length=80)
 

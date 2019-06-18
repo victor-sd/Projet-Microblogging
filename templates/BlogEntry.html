@@ -8,7 +8,18 @@
 {% endif %}
 
 <div>
-
+    <section> 
+        <!-- iterate here ? -->
+        {% for entry in message %}
+                <figure>
+                    <figcaption>{{entry.title}}</figcaption>
+                </figure>                
+                <figure>
+                    <figcaption>{{entry.body}}</figcaption>
+                </figure>
+            </a>
+        {% endfor %}
+    </section>
 </div>
 
     
