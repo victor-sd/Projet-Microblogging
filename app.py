@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, flash,redirect,url_for,abort
+from flask import Flask, render_template,request, flash,redirect,url_for,abort,session
 from models import create_tables, drop_tables, User, Post
 from forms import UserForm,LoginForm
 import click
@@ -42,8 +42,8 @@ def fakedata():
 def testdata():
     for pk in User.select():
         print(pk.username)
-        print(pk.name)
-        print(pk.firstname)
+        print(pk.mdp)
+        print(pk.mail)
 
 app.secret_key = 'HelloWorld' #Don't use it .. !
 
@@ -71,25 +71,30 @@ def login():
         users = User.select().where(User.username == form.username.data)
         if users:
             for user in users:
-                if check_password_hash(user.mdp, form.password.data):
-                    login_user(user)
-                    flash('Logged in successfully.')
+                if check_password_hash(user.mdp, form.password.data):              
+                    #login_user(user)
+                    session['logged_in'] = True
+                    session.permanet = True
+                    flash('Logged in successfully')
                     return redirect(url_for('BlogEntry'))
     return render_template('login.html', form=form)
    
-
+   
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
-    
+
 @app.route('/BlogEntry')
 @login_required
 def BlogEntry():
     return render_template('BlogEntry.html')
 
 
-@app.route('/login')
+@app.route('/logout')
 @login_required
 def logout():
-    logout_user()
+    #if request.method == 'POST':
+    session['logged_in'] = False
+    session.pop('logged_in')
+    # logout_user()
     return redirect(url_for('index'))

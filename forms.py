@@ -6,10 +6,6 @@ from wtforms.validators import DataRequired, Length,Email
 class UserForm(FlaskForm):
     username = StringField('Username', validators=[
                        DataRequired(), Length(min=3, max=20)])
-    name = StringField('Name', validators=[
-                       DataRequired(), Length(min=3, max=20)])
-    firstname = StringField('Firstname', validators=[
-                       DataRequired(), Length(min=3, max=20)])
     mail = StringField('Email Address', validators=[
                        DataRequired(), Email(message='invalid email'), Length(min=3, max=30)])
     mdp = PasswordField('New Password', [

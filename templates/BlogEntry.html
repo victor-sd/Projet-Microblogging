@@ -3,7 +3,10 @@
 
 {% block body %}
 {% block content %}
-<h1>Welcome, {{ username }}!</h1> 
+{% if session.logged_in %}
+<h1>Welcome, {{session.username}}!</h1>
+{% endif %}
+
 <div>
 
 </div>

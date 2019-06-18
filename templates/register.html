@@ -6,6 +6,7 @@
 
 <form method="POST">
         {% for field in form %}
+        <p>
             {% if field.widget.input_type != 'hidden' %}
                 {{ field.label() }}
                 {% if field.errors %}
@@ -15,7 +16,7 @@
                 {% endif %}
             {% endif %}
             {{ field() }}
-    
+        </p>
         {% endfor %}
         <button type="submit">Save</button>
     </form>
