@@ -12,7 +12,8 @@ login_manager.login_view = 'login'
 
 @app.route('/')
 def index():
-    return render_template('base.html')
+    list_message = Post.select()
+    return render_template('base.html',message = list_message)
 
 
 @app.cli.command()
@@ -30,7 +31,7 @@ def dropdb():
 def fakedata():
     from faker import Faker
     fake = Faker()
-    for user_pk in range(0, 15):
+    for user_pk in range(0, 5):
         user = User.create(username=fake.first_name(),mail = fake.text(),mdp = fake.text())
         for post_pk in range(0, 3):
             post = Post.create( title = fake.text(), body = fake.text(),

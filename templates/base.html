@@ -58,7 +58,15 @@
         {% endwith %}
 
         {% block body %}
-        BODY BLOCK !!
+        <section>      
+            <h2>Publications list</h2>
+            {% for msg in list_message %}
+            <article>
+                <h1>{{msg.title}}</h1>
+                <p>Contenu de l'article</p>
+              </article>
+            {% endfor %}
+        </section>
         {% endblock %}
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block main %}
+    {% block content %}
+        <section>      
+            <h2>The world of Jurassic Park</h2>
+            <!-- iterate here ? -->
+            {% for dino in d %}
+                <a href="{{ url_for('detailDino', slug=dino["slug"])}}">
+                    <figure>
+                        <img src="{{dino["avatar"]}}" alt="" />
+                        <figcaption>Discover the {{dino["name"]}}</figcaption>
+                    </figure>
+                </a>
+            {% endfor %}
+        </section>
+    {% endblock %}
+{% endblock %}
