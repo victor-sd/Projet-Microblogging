@@ -33,12 +33,15 @@ class Post(BaseModel):
     dateCreate = DateField()
     refUser = ForeignKeyField(User, backref="auteur")
 
-
+class Publication(BaseModel):
+    titre = CharField()
+    texte = TextField()
+    date_creation = DateTimeField(default=datetime.datetime.now)
+    date_maj = DateTimeField(default=datetime.datetime.now)
 
 def create_tables():
     with database:
         database.create_tables([User, Post])
-
 
 def drop_tables():
     with database:

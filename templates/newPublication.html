@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>Nouvelle publication</h2>
+
+<form method="POST">
+    {% for field in form %}
+        {% if field.widget.input_type != 'hidden' %}
+            {{ field.label() }}
+            <br>
+            {% if field.errors %}
+                {% for error in field.errors %}
+                <div class="alert alert-error">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        {{ field() }}
+    <br>
+    {% endfor %}
+    <button type="submit">Envoyer</button>
+</form>
+
+{% endblock%}

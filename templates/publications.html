@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>Publications de Microlly</h2>
+
+    {% for publication in publications %}
+        {{ publication.titre }}
+    {% endfor %}
+{% endblock %}
