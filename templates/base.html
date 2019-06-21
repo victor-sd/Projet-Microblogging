@@ -36,19 +36,19 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
-                </li>    
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('publications') }}">List of Publications</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('newPublication') }}">New publication</a>
+                </li>   
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('user_create') }}">Register</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('publications') }}">List of Publications</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('newPublication') }}">New publication</a>
                 </li>
                 {% endif %}
             </ul>

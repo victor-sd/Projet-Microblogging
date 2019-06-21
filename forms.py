@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, PasswordField, validators,BooleanField,SubmitField,TextAreaField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length,Email
-from wtfpeewee.orm import model_form
 from models import Publication
 
 class UserForm(FlaskForm):
@@ -31,5 +30,3 @@ class PostCreate(FlaskForm):
     Text = TextAreaField('Text', validators=[DataRequired()])
     submit = SubmitField('Save')
     submit = SubmitField('Cancel')
-
-PublicationForm = model_form(Publication, exclude=('date_creation', 'date_maj'))

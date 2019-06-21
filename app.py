@@ -1,6 +1,6 @@
 from flask import Flask, render_template,request, flash,redirect,url_for,abort,session
 from models import create_tables, drop_tables, User, Post, Publication
-from forms import UserForm,LoginForm,PublicationForm
+from forms import UserForm,LoginForm,PostCreate
 import click
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -103,18 +103,18 @@ def logout():
 
 @app.route('/publications')
 def publications():
-    publications = Publication.select()
-    return render_template('publications.html', publications=publications)
+    posts = Post.select()
+    return render_template('publications.html', publications=posts)
 
 @app.route('/newPublication', methods=('GET', 'POST'))
 def newPublication():
     if request.method == 'POST':
-        form = PublicationForm(request.form) #PublicationForm(...) -> publication de forms
+        form = PostCreate(request.form)
         if form.validate():
-            publication = Publication() #Publication() ->publication de models
+            publication = Post()
             form.populate_obj(publication)
             publication.save()
             return redirect('/success')
     else:
-        form = PublicationForm()
-    return render_template('/Formulaires/newPublicationForm.html', form=form)
+        form = PostCreate()
+    return render_template('newPublication.html', form=form)

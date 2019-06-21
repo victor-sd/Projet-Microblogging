@@ -16,6 +16,7 @@ flask-wtf = "*"
 pyramid = "*"
 werkzeug = "*"
 flask-login = "*"
+wtfpeewee = "*"
 
 [requires]
 python_version = "3.7"
